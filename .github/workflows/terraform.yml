@@ -1,0 +1,66 @@
+name: Terraform AWS Deploy (Dev) – PR-First, No Direct Main Push
+
+on:
+  pull_request:
+    branches:
+      - main
+
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    name: Terraform (Dev)
+    runs-on: ubuntu-latest
+    environment: development
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # 1️⃣ Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      # 3️⃣ Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # 4️⃣ Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # 5️⃣ Select Terraform Workspace (dev)
+      - name: Select Terraform Workspace (dev)
+        run: terraform workspace select -or-create dev
+
+      # 6️⃣ Terraform Format Check
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      # ✅ 7️⃣ Terraform Validate (NEW)
+      - name: Terraform Validate
+        run: terraform validate
+
+      # 8️⃣ Terraform Plan (PR only)
+      - name: Terraform Plan (PR Only)
+        if: github.event_name == 'pull_request'
+        run: terraform plan -var-file=dev.tfvars -input=false
+
+      # 9️⃣ Terraform Apply (after merge to main)
+      - name: Terraform Apply (Main Only)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: terraform apply -var-file=dev.tfvars -auto-approve -input=false
