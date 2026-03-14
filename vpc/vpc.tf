@@ -14,3 +14,46 @@ resource "aws_internet_gateway" "igw" {
     Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-igw"
   })
 }
+
+# CREATING PUBLIC SUBNETS
+resource "aws_subnet" "public_subnet_az_2a" {
+  vpc_id     = aws_vpc.main_vpc.id
+  cidr_block = var.public_cidr_block[0]
+  availability_zone = var.availability_zone[0]
+
+ tags = merge(var.tags, {
+    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-public-subnet-az-2a"
+  })
+}
+
+  # CREATING PUBLIC SUBNETS
+resource "aws_subnet" "public_subnet_az_2b" {
+  vpc_id     = aws_vpc.main_vpc.id
+  cidr_block = var.public_cidr_block[1]
+  availability_zone = var.availability_zone[1]
+
+ tags = merge(var.tags, {
+    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-public-subnet-az-2b"
+  })
+}
+
+#CREATING PRIVATE SUBNET
+resource "aws_subnet" "private_subnet_az_2a" {
+  vpc_id     = aws_vpc.main_vpc.id
+  cidr_block = var.private_cidr_block[0]
+  availability_zone = var.availability_zone[0]
+
+ tags = merge(var.tags, {
+    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-private-subnet-az-2b"
+  })
+}
+
+  resource "aws_subnet" "private_subnet_az_2b" {
+  vpc_id     = aws_vpc.main_vpc.id
+  cidr_block = var.private_cidr_block[1]
+  availability_zone = var.availability_zone[1]
+
+ tags = merge(var.tags, {
+    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-private-subnet-az-2b"
+  })
+  }
