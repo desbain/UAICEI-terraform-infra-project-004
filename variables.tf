@@ -3,11 +3,11 @@ variable "vpc_cidr_block" {
 }
 
 variable "public_cidr_block" {
-  type = list(string) 
+  type = list(string)
 }
 
 variable "private_cidr_block" {
-  type = list(string) 
+  type = list(string)
 }
 
 variable "availability_zone" {
