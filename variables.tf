@@ -14,3 +14,7 @@ variable "availability_zone" {
   type = list(string)
 }
 
+variable "db_cider_block" {
+  type = list(string)
+}
+
