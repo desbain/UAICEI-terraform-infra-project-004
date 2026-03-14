@@ -1,0 +1,67 @@
+name: 🚨 DANGEROUS – Terraform Destroy (Dev – Main Only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_destroy:
+        description: "Type DESTROY to confirm"
+        required: true
+        default: ""
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    environment: development-destroy
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # 1️⃣ Hard stop if not main branch
+      - name: Abort if not on main branch
+        run: |
+          if [ "${GITHUB_REF}" != "refs/heads/main" ]; then
+            echo "Terraform destroy can ONLY be run from the main branch."
+            exit 1
+          fi
+
+      # 2️⃣ Abort if not explicitly confirmed
+      - name: Abort if not confirmed
+        run: |
+          if [ "${{ github.event.inputs.confirm_destroy }}" != "DESTROY" ]; then
+            echo "Destroy not confirmed, exiting."
+            exit 1
+          fi
+
+      # 3️⃣ Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 4️⃣ Setup Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # 5️⃣ Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      # 6️⃣ Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # 7️⃣ Select Terraform Workspace (dev)
+      - name: Select Terraform Workspace (dev)
+        run: terraform workspace select -or-create dev
+
+      # 8️⃣ Terraform Plan Destroy (preview)
+      - name: Terraform Plan Destroy
+        run: terraform plan -destroy -var-file=dev.tfvars -input=false
+
+      # 9️⃣ Terraform Destroy (approved + confirmed + main only)
+      - name: Terraform Destroy
+        run: terraform destroy -var-file=dev.tfvars -auto-approve -input=false
