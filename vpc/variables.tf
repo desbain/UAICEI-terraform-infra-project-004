@@ -18,4 +18,10 @@ variable "private_cidr_block" {
   type = list(string) 
 }
 
+variable "db_cider_block" {
+  type = list(string)
+}
+
+
+
 
