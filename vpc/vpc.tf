@@ -44,7 +44,7 @@ resource "aws_subnet" "private_subnet_az_2a" {
   availability_zone = var.availability_zone[0]
 
  tags = merge(var.tags, {
-    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-private-subnet-az-2b"
+    Name = "${var.tags["project"]}-${var.tags["application"]}-${var.tags["environment"]}-private-subnet-az-2a"
   })
 }
 
@@ -147,7 +147,7 @@ resource "aws_route_table_association" "rt_ass_private_subnet_az_2a" {
 }
 
 resource "aws_route_table_association" "rt_ass_db_subnet_az_2a" {
-  subnet_id      = aws_subnet.db-subnet_az_2a.id
+  subnet_id      = aws_subnet.db_subnet_az_2a.id
   route_table_id = aws_route_table.private_rt_az_2a.id
 }
 
@@ -196,6 +196,6 @@ resource "aws_route_table_association" "rt_ass_private_subnet_az_2b" {
 }
 
 resource "aws_route_table_association" "rt_ass_db_subnet_az_2b" {
-  subnet_id      = aws_subnet.db-subnet_az_2b.id
+  subnet_id      = aws_subnet.db_subnet_az_2b.id
   route_table_id = aws_route_table.private_rt_az_2b.id
 }
