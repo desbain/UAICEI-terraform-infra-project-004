@@ -93,12 +93,12 @@ resource "aws_subnet" "private_subnet_az_2a" {
 
 #CREATING SUBNET ASSOCIATION FOR PUBLIC SUBNETS
 resource "aws_route_table_association" "rt_ass_public_subnet_az_2a" {
-  subnet_id      = aws_subnet.db-subnet_az_2a.id
+  subnet_id      = aws_subnet.public_subnet_az_2a.id
   route_table_id = aws_route_table.public_rt.id
 }
 
 resource "aws_route_table_association" "rt_ass_public_subnet_az_2b" {
-  subnet_id      = aws_subnet.db-subnet_az_2b.id
+  subnet_id      = aws_subnet.public_subnet_az_2b.id
   route_table_id = aws_route_table.public_rt.id
 }
 
