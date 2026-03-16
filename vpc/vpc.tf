@@ -59,7 +59,7 @@ resource "aws_subnet" "private_subnet_az_2a" {
   }
 
 #CREATING DATABASE SUBNET------------------------------------------------------------------------------------------
-  resource "aws_subnet" "db-subnet_az_2a" {
+  resource "aws_subnet" "db_subnet_az_2a" {
   vpc_id     = aws_vpc.main_vpc.id
   cidr_block = var.db_cider_block[0]
   availability_zone = var.availability_zone[0]
@@ -68,7 +68,7 @@ resource "aws_subnet" "private_subnet_az_2a" {
   })
   }
 
-  resource "aws_subnet" "db-subnet_az_2b" {
+  resource "aws_subnet" "db_subnet_az_2b" {
   vpc_id     = aws_vpc.main_vpc.id
   cidr_block = var.db_cider_block[1]
   availability_zone = var.availability_zone[1]
@@ -131,7 +131,7 @@ resource "aws_route_table" "private_rt_az_2a" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.nat_gw_az_2a.id
+    nat_gateway_id = aws_nat_gateway.nat_gw_az_2a.id
   }
   
   tags = merge(var.tags, {
@@ -180,7 +180,7 @@ resource "aws_route_table" "private_rt_az_2b" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_nat_gateway.nat_gw_az_2b.id
+    nat_gateway_id = aws_nat_gateway.nat_gw_az_2b.id
   }
   
   tags = merge(var.tags, {
