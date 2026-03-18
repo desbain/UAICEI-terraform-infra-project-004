@@ -24,11 +24,11 @@ module "vpc" {
 }
 
 module "ec2" {
-  source = "./ec2"
-  subnet_id = module.vpc.subnet_id
-  vpc_id = module.vpc.vpc_id
-  ami_id = var.ami_id
-  key_name = var.key_name
-  tags = local.project_tags
+  source        = "./ec2"
+  subnet_id     = module.vpc.subnet_id
+  vpc_id        = module.vpc.vpc_id
+  ami_id        = var.ami_id
+  key_name      = var.key_name
+  tags          = local.project_tags
   instance_type = var.instance_type
 }
