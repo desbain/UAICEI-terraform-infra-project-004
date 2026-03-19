@@ -34,3 +34,27 @@ module "ec2" {
   private_subnet_az_2a_id = module.vpc.private_subnet_az_2a_id
   private_subnet_az_2b_id = module.vpc.private_subnet_az_2b_id
 }
+
+module "auto-scaling" {
+  source                 = "./auto-scaling"
+  public_subnet_az_2a_id = module.vpc.public_subnet_az_2a_id
+  min_size               = var.min_size
+  public_subnet_az_2b_id = module.vpc.public_subnet_az_2b_id
+  jupiter_app_tg_arn     = module.alb.jupiter_app_tg_arn
+  key_name               = var.key_name
+  desired_capacity       = var.desired_capacity
+  ami_id                 = var.ami_id
+  tags                   = local.project_tags
+  max_size               = var.max_size
+  instance_type          = var.instance_type
+  vpc_id                 = module.vpc.vpc_id
+
+}
+
+module "alb" {
+  source                 = "./alb"
+  public_subnet_az_2a_id = module.vpc.public_subnet_az_2a_id
+  public_subnet_az_2b_id = module.vpc.public_subnet_az_2b_id
+  vpc_id                 = module.vpc.vpc_id
+  tags                   = local.project_tags
+}

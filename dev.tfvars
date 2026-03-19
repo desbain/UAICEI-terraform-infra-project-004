@@ -6,3 +6,6 @@ availability_zone  = ["us-east-2a", "us-east-2b"]
 ami_id             = "ami-0b0b78dcacbab728f"
 instance_type      = "t2.micro"
 key_name           = "jupiter360keys"
+max_size           = 6
+min_size           = 2
+desired_capacity   = 4
