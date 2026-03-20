@@ -57,4 +57,14 @@ module "alb" {
   public_subnet_az_2b_id = module.vpc.public_subnet_az_2b_id
   vpc_id                 = module.vpc.vpc_id
   tags                   = local.project_tags
+  certificate_arn        = var.certificate_arn
+  ssl_policy             = var.ssl_policy
+}
+
+module "route53" {
+  source          = "./route53"
+  name            = var.name
+  alb_dns_name    = module.alb.alb_dns_name
+  alb_zone_id     = module.alb.alb_zone_id
+  route53_zone_id = var.route53_zone_id
 }

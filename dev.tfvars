@@ -9,3 +9,7 @@ key_name           = "jupiter360keys"
 max_size           = 6
 min_size           = 2
 desired_capacity   = 4
+ssl_policy         = "ELBSecurityPolicy-TLS13-1-2-Res-PQ-2025-09"
+certificate_arn    = "arn:aws:acm:us-east-2:905418310734:certificate/ed75b003-a8fe-4034-8b08-63d67298228f"
+route53_zone_id    = "Z05831012JEB0UCXCK7KZ"
+name               = "desbain.com"
