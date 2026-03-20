@@ -13,3 +13,11 @@ variable "public_subnet_az_2a_id" {
 variable "public_subnet_az_2b_id" {
   type = string
 }
+
+variable "ssl_policy" {
+  type = string
+}
+
+variable "certificate_arn" {
+  type = string
+}

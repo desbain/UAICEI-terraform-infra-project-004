@@ -41,3 +41,19 @@ variable "min_size" {
 variable "desired_capacity" {
   type = number
 }
+
+variable "ssl_policy" {
+  type = string
+}
+
+variable "certificate_arn" {
+  type = string
+}
+
+variable "route53_zone_id" {
+  type = string
+}
+
+variable "name" {
+  type = string
+}
