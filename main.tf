@@ -68,3 +68,18 @@ module "route53" {
   alb_zone_id     = module.alb.alb_zone_id
   route53_zone_id = var.route53_zone_id
 }
+
+module "rds" {
+  source               = "./rds"
+  parameter_group_name = var.parameter_group_name
+  db_subnet_az_2a      = module.vpc.db_subnet_az_2a
+  allocated_storage    = var.allocated_storage
+  instance_class       = var.instance_class
+  engine               = var.engine
+  vpc_id               = module.vpc.vpc_id
+  db_subnet_az_2b      = module.vpc.db_subnet_az_2b
+  engine_version       = var.engine_version
+  db_name              = var.db_name
+  tags                 = local.project_tags
+}
+
