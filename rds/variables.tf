@@ -39,10 +39,3 @@ variable "parameter_group_name"{
   type = string
 }
 
-variable "rds_secrets_manager_role" {
-  type = string
-}
-
-variable "rds_secrets_manager" {
-  type = string
-}
